@@ -15,8 +15,18 @@ import (
 
 func newRouter() *httprouter.Router {
 	mux := httprouter.New()
+	ytApiKey := os.Getenv("YOUTUBE_API_KEY")
+	ytChannelId := os.Getenv("YOUTUBE_CHANNEL_ID")
 
-	mux.GET("/ytoutube/channel/stats", getChannelStats())
+	if ytApiKey == "" {
+		log.Fatal("youtube API key is not provided")
+	}
+
+	if ytApiKey == "" {
+		log.Fatal("youtube ChannelId is not provided")
+	}
+
+	mux.GET("/ytoutube/channel/stats", getChannelStats(ytApiKey, ytChannelId))
 	return mux
 }
 
